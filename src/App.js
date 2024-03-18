@@ -6,8 +6,13 @@ import Header from "./pages/theme/Header";
 import Layout from "./pages/theme/Layout";
 import Footer from "./pages/theme/Footer";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import UserManagement from "./pages/UserManagement";
 import Contact from "./pages/Contact";
+import UserManagement from "./pages/usermanagement/UserManagement";
+// import Add from "./pages/usermanagement/AddUser";
+import AddUser from "./pages/usermanagement/AddUser";
+// import Add from "./pages/UserManagement/Add";
+// import Add from "./pages/usermanagement/Add";
+// import UserManagement from "./pages/userManagement/UserManagement";
 
 function App() {
   return (
@@ -17,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/user-management" element={<UserManagement />} />
+            <Route path="/user-management/add" element={<AddUser />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
           </Route>
