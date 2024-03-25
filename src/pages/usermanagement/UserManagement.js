@@ -31,7 +31,7 @@ const UserManagement = () => {
   useEffect(() => {
     setTimeout(() => {
       setUsers(data);
-    }, 2000);
+    }, 1000);
   }, []);
 
   return (
@@ -41,13 +41,15 @@ const UserManagement = () => {
 
       <Link to="/user-management/add">Add</Link>
       <table className="customers">
-        <tr>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Age</th>
-          <th>City</th>
-          <th colSpan={2}>Action</th>
-        </tr>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Age</th>
+            <th>City</th>
+            <th colSpan={3}>Action</th>
+          </tr>
+        </thead>
         {/* {users?.map((item) => {
           return (
             <tr>
@@ -58,40 +60,49 @@ const UserManagement = () => {
             </tr>
           );
         })} */}
-
-        {users.length > 0 &&
-          users?.map((item, index) => {
-            return (
-              <tr key={index}>
-                <td>{item.Username}</td>
-                <td>{item.email}</td>
-                <td>{item.age}</td>
-                <td>{item.city}</td>
-                <td>
-                  <Link
-                    to={`/user-management/edit/${item.id}`}
-                    className="btn-1"
-                  >
-                    {" "}
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <Link
-                    to={`/user-management/edit/${item.id}`}
-                    className="btn-2"
-                  >
-                    Delete
-                  </Link>
-                </td>
-              </tr>
-            );
-          })}
-        {users.length === 0 && (
-          <tr>
-            <td colSpan={4}>No records</td>
-          </tr>
-        )}
+        <tbody>
+          {users.length > 0 &&
+            users?.map((item, index) => {
+              return (
+                <tr key={index}>
+                  <td>{item.Username}</td>
+                  <td>{item.email}</td>
+                  <td>{item.age}</td>
+                  <td>{item.city}</td>
+                  <td>
+                    <Link
+                      to={`/user-management/edit/${item.id}`}
+                      className="btn"
+                    >
+                      {" "}
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <Link
+                      to={`/user-management/delete/${item.id}`}
+                      className="btn"
+                    >
+                      Delete
+                    </Link>
+                  </td>
+                  <td>
+                    <Link
+                      to={`/user-management/detail/${item.id}`}
+                      className="btn"
+                    >
+                      Detail
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+          {users.length === 0 && (
+            <tr>
+              <td colSpan={5}>No records</td>
+            </tr>
+          )}
+        </tbody>
       </table>
     </div>
   );

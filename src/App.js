@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import UserManagement from "./pages/usermanagement/UserManagement";
 // import Add from "./pages/usermanagement/AddUser";
 import AddUser from "./pages/usermanagement/AddUser";
+import UserDetail from "./pages/usermanagement/UserDetail";
 // import Add from "./pages/UserManagement/Add";
 // import Add from "./pages/usermanagement/Add";
 // import UserManagement from "./pages/userManagement/UserManagement";
@@ -23,6 +24,10 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/user-management" element={<UserManagement />} />
             <Route path="/user-management/add" element={<AddUser />} />
+            <Route
+              path="/user-management/detail/:id"
+              element={<UserDetail />}
+            />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/contact" element={<Contact />} />
           </Route>
