@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ViTextInput from "../../components/ViTextinput";
+import { validateEmail } from "../../utils/common";
+import ViPasswordInput from "../../components/ViPasswordInput";
 
 const AddUser = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -16,22 +18,68 @@ const AddUser = () => {
     email: "",
     age: "",
     city: "",
+    password: "",
+  });
+
+  const [errorMsg, setErrMsg] = useState({
+    username: "",
+    email: "",
+    age: "",
+    city: "",
+    password: "",
   });
 
   const validateForm = () => {
     let isValid = true;
+    const err = { ...errorMsg };
     if (user.username === "") {
+      err.username = "Username is required";
       isValid = false;
+    } else {
+      err.username = "";
     }
     if (user.email === "") {
+      err.email = "Email is required";
       isValid = false;
+    } else if (!validateEmail(user.email)) {
+      err.email = "Email is not valid";
+      isValid = false;
+    } else {
+      err.email = "";
     }
+
     if (user.age === "") {
+      err.age = "Age is required";
       isValid = false;
+    } else {
+      err.age = "";
     }
     if (user.city === "") {
+      err.city = "City is required";
       isValid = false;
+    } else {
+      err.city = "";
     }
+    if (user.password === "") {
+      err.password = "Passowrd is required";
+      isValid = false;
+    } else {
+      err.password = "";
+    }
+    setErrMsg(err);
+
+    // if (user.username === "") {
+    //   isValid = false;
+    // }
+    // if (user.email === "") {
+    //   isValid = false;
+    // }
+    // if (user.age === "") {
+    //   isValid = false;
+    // }
+    // if (user.city === "") {
+    //   isValid = false;
+    // }
     return isValid;
   };
   // useEffect(() => {
@@ -58,6 +106,7 @@ const AddUser = () => {
 
   const saveForm = () => {
     setIsSubmitted(true);
+    console.log("error message", errorMsg);
     // console.log("save form");
     console.log("User:", user);
     // console.log("Username", username);
@@ -77,7 +126,7 @@ const AddUser = () => {
         value={user.username}
         handleInputChange={handleInputChange}
         isSubmitted={isSubmitted}
-        errMessage="Username required"
+        errMessage={errorMsg.username}
       />
       <ViTextInput
         title="Email"
@@ -85,7 +134,7 @@ const AddUser = () => {
         value={user.email}
         handleInputChange={handleInputChange}
         isSubmitted={isSubmitted}
-        errMessage="Email required"
+        errMessage={errorMsg.email}
       />
       <ViTextInput
         title="Age"
@@ -93,7 +142,7 @@ const AddUser = () => {
         value={user.age}
         handleInputChange={handleInputChange}
         isSubmitted={isSubmitted}
-        errMessage="Age required"
+        errMessage={errorMsg.age}
       />
       <ViTextInput
         title="City"
@@ -101,9 +150,16 @@ const AddUser = () => {
         value={user.city}
         handleInputChange={handleInputChange}
         isSubmitted={isSubmitted}
-        errMessage="City required"
+        errMessage={errorMsg.city}
       />
-
+      <ViPasswordInput
+        title="Password"
+        name="password"
+        value={user.password}
+        handleInputChange={handleInputChange}
+        isSubmitted={isSubmitted}
+        errMessage={errorMsg.password}
+      />
       {/* <div>
         <label>Username</label> */}
       {/* <input type="text" onChange={handleUsernameChange} value={username} /> */}
@@ -154,7 +210,7 @@ const AddUser = () => {
       {isSubmitted && user.city === "" && (
         <span className="label-danger">Required</span>
       )} */}
-      <div>
+      <div className="form-group">
         <button className="btn" onClick={saveForm}>
           Save
         </button>

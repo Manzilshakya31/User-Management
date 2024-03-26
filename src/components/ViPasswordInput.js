@@ -1,9 +1,9 @@
-const ViTextInput = (props) => {
+const ViPasswordInput = (props) => {
   return (
     <div className="form-group">
       <label>{props.title}</label>
       <input
-        type="text"
+        type="password"
         onChange={props.handleInputChange}
         name={props.name}
         value={props.value}
@@ -16,4 +16,4 @@ const ViTextInput = (props) => {
   );
 };
 
-export default ViTextInput;
+export default ViPasswordInput;
