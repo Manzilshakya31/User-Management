@@ -1,31 +1,32 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const UserDetail = () => {
   const { id } = useParams();
-  const data = [
-    {
-      id: 1,
-      username: "John",
-      email: "jon@gmailcom",
-      age: 25,
-      city: "London",
-    },
-    {
-      id: 2,
-      username: "Jane",
-      email: "jane@gmailcom",
-      age: 22,
-      city: "New York",
-    },
-    {
-      id: 3,
-      username: "Paul",
-      email: "paul@gmailcom",
-      age: 30,
-      city: "Paris",
-    },
-  ];
+  // const data = [
+  //   {
+  //     id: 1,
+  //     username: "John",
+  //     email: "jon@gmailcom",
+  //     age: 25,
+  //     city: "London",
+  //   },
+  //   {
+  //     id: 2,
+  //     username: "Jane",
+  //     email: "jane@gmailcom",
+  //     age: 22,
+  //     city: "New York",
+  //   },
+  //   {
+  //     id: 3,
+  //     username: "Paul",
+  //     email: "paul@gmailcom",
+  //     age: 30,
+  //     city: "Paris",
+  //   },
+  // ];
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -33,10 +34,15 @@ const UserDetail = () => {
     city: "",
   });
   useEffect(() => {
-    const newUser = data.find((obj) => obj.id.toString() === id.toString());
-    if (newUser) {
-      setUser(newUser);
-    }
+    axios.get("http://localhost:4000/users").then((res) => {
+      setUser(res.data);
+      const newUser = res.data.find(
+        (obj) => obj.id.toString() === id.toString()
+      );
+      if (newUser) {
+        setUser(newUser);
+      }
+    });
   }, []);
 
   return (

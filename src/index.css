@@ -1,4 +1,3 @@
-
 *{
   margin:0;
   padding:0;
@@ -7,7 +6,7 @@
   background:rgb(125, 124, 124);
   color: white;
   padding-top: 50px;
-  font-size: 50px;
+  /* font-size: 50px; */
   height:100px;
 }
 
@@ -140,8 +139,26 @@ input[type=submit]:hover {
 
 /* form css ends */
 .Login-form{
-    width: 300px;
-    margin: 100px auto;
-    border: 1px solid #ccc;
+    width: 500px;
+    margin: 200px auto;
+    /* border: 1px solid #ccc; */
     padding: 20px;
+  }
+
+  .alert-message{
+    background-color: rgba(255, 0, 0, 0.767);
+    height: 40px;
+    color: white;
+    padding-top: 20px;
+    font-size: 18px;
+    margin: 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
+
+  .delete-com{
+    margin: 15px;
+  }
+  .delete-detail{
+    margin: 10px;
   }

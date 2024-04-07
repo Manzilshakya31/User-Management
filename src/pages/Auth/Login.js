@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ViTextInput from "../../components/ViTextinput";
 import ViPasswordInput from "../../components/ViPasswordInput";
+import ViMessage from "../../components/ViMessage";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [errorMessage, setErrorMessage] = useState();
 
   const handleInputChange = (event) => {
     if (event.target.name === "email") {
@@ -24,15 +26,31 @@ const Login = () => {
     }
 
     if (isLogin) {
+      localStorage.setItem("isLogin", "1");
       navigate("/user-management");
     } else {
-      alert("Login failed");
+      // alert("Login failed");
+      setErrorMessage("Invalid email or password!!");
     }
   };
+
+  useEffect(() => {
+    const isLogin = localStorage.getItem("isLogin");
+    if (isLogin === "1") {
+      navigate("/user-management");
+    }
+  });
 
   return (
     <div className="Login-form">
       <h1>Login</h1>
+      {/* {email === "admin" && password === "admin" ? (
+        " "
+      ) : (
+        <p>Incorrect email or password</p>
+      )} */}
+
+      {errorMessage && <ViMessage message={errorMessage} />}
       <ViTextInput
         title="Email"
         name="email"

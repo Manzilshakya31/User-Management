@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ViTable from "../../components/ViTable";
+import axios from "axios";
 
 const header = [
   {
@@ -21,35 +22,46 @@ const header = [
   },
 ];
 
-const data = [
-  {
-    id: "1",
-    username: "Ram",
-    email: "ram@gmail.com",
-    age: 5,
-    city: "Nepal",
-  },
-  {
-    id: "2",
-    username: "Ram",
-    email: "ram@gmail.com",
-    age: 5,
-    city: "Nepal",
-  },
-  {
-    id: "3",
-    username: "Ram",
-    email: "ram@gmail.com",
-    age: 5,
-    city: "Nepal",
-  },
-];
+// const data = [
+//   {
+//     id: "1",
+//     username: "Ram",
+//     email: "ram@gmail.com",
+//     age: 5,
+//     city: "Nepal",
+//   },
+//   {
+//     id: "2",
+//     username: "Ram",
+//     email: "ram@gmail.com",
+//     age: 5,
+//     city: "Nepal",
+//   },
+//   {
+//     id: "3",
+//     username: "Ram",
+//     email: "ram@gmail.com",
+//     age: 5,
+//     city: "Nepal",
+//   },
+// ];
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    setUsers(data);
+    //API integration
+    axios
+      .get("http://localhost:4000/users")
+      .then((res) => {
+        setUsers(res.data);
+      })
+      .catch((err) => {
+        alert("API SERVER ERROR");
+        console.log(err);
+      });
+    // setUsers(data);
+
     // setTimeout(() => {
     // }, 1000);
   }, []);
