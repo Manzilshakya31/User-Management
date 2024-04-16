@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ViTextInput from "../../components/ViTextinput";
 import ViPasswordInput from "../../components/ViPasswordInput";
 import ViMessage from "../../components/ViMessage";
+import { showSuccessMessage } from "../../utils/notification";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,6 +27,8 @@ const Login = () => {
     }
 
     if (isLogin) {
+      showSuccessMessage("Login successful");
+
       localStorage.setItem("isLogin", "1");
       navigate("/user-management");
     } else {

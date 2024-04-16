@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ViTextInput from "../../components/ViTextinput";
 import { validateEmail } from "../../utils/common";
 import ViPasswordInput from "../../components/ViPasswordInput";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
+// import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showSuccessMessage } from "../../utils/notification";
+import {
+  addUser,
+  getUserById,
+  updateUser,
+} from "../../service/user-management.service";
 
 const AddUser = () => {
+  const { userId } = useParams();
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   // const [isValid, setIsValidate] = useState();
   const navigate = useNavigate();
@@ -22,6 +32,25 @@ const AddUser = () => {
     city: "",
     password: "",
   });
+
+  useEffect(() => {
+    if (userId) {
+      getUserById(userId)
+        .then((data) => {
+          setUser({
+            username: data.username,
+            password: data.password,
+            email: data.email,
+            age: data.age,
+            city: data.city,
+          });
+        })
+        .catch((err) => {
+          alert("API server error");
+          console.log(err);
+        });
+    }
+  }, []);
 
   const [errorMsg, setErrMsg] = useState({
     username: "",
@@ -107,36 +136,80 @@ const AddUser = () => {
   // };
 
   const saveForm = () => {
-    const uuid = uuidv4();
-    console.log(uuid);
+    // const uuid = uuidv4();
+    // console.log(uuid);
 
-    setIsSubmitted(true);
-    console.log("error message", errorMsg);
+    // setIsSubmitted(true);
+    // console.log("error message", errorMsg);
+
     // console.log("save form");
-    console.log("User:", user);
+
+    // console.log("User:", user);
+
     // console.log("Username", username);
     // console.log("Email", emailName);
     // console.log("Age", age);
     // console.log("City", city);
     if (validateForm()) {
-      const item = { ...user, id: uuid };
-      console.log("User", item);
+      if (userId) {
+        // UPDATE Case
 
-      axios
-        .post("http://localhost:4000/users", item)
-        .then(() => {
-          console.log("User saved");
-          navigate("/user-management");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Server error");
-        });
+        updateUser(userId, user)
+          .then(() => {
+            showSuccessMessage("User saved");
+            console.log("user saved");
+            navigate("/user-management");
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("SERVER ERROR");
+          });
+      } else {
+        // ADD Case
+        const uuid = uuidv4();
+        const item = { ...user, id: uuid };
+        console.log("User:", item);
+        addUser(user)
+          .then(() => {
+            showSuccessMessage("User saved");
+            console.log("user saved");
+            navigate("/user-management");
+          })
+          .catch((err) => {
+            console.log(err);
+            alert("SERVER ERROR");
+          });
+      }
     }
+
+    // const item = { ...user, id: uuid };
+    // console.log("User", item);
+    // axios
+    //   .post("http://localhost:4000/users", item)
+    //   .then(() => {
+    //     toast.success("User added", {
+    //       position: "top-right",
+    //       autoClose: 5000,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //       theme: "colored",
+    //       // transition: Bounce,
+    //     });
+    //     console.log("User saved");
+    //     navigate("/user-management");
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     alert("Server error");
+    //   });
   };
   return (
     <div>
-      <h2 className="text">Add user</h2>
+      {/* <h2 className="text">Add user</h2> */}
+      <h2>{userId ? "Edit User" : "Add User"}</h2>
       <ViTextInput
         title="Username"
         name="username"
@@ -228,8 +301,11 @@ const AddUser = () => {
         <span className="label-danger">Required</span>
       )} */}
       <div className="form-group">
-        <button className="btn" onClick={saveForm}>
+        {/* <button className="btn" onClick={saveForm}>
           Save
+        </button> */}
+        <button onClick={saveForm} className="btn">
+          {userId ? "Update" : "Save"}
         </button>
       </div>
     </div>

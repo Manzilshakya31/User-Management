@@ -1,9 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import logo_virinchi from "../../assets/images/logo_virinchi.png";
+import { showSuccessMessage } from "../../utils/notification";
+
 const Header = () => {
   const navigate = useNavigate();
   const logout = () => {
+    showSuccessMessage("Logout successful");
     localStorage.removeItem("isLogin");
     navigate("/login");
   };
